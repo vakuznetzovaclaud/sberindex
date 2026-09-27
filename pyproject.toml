@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ews"
+version = "1.0.0"
+description = "Где искать шок: прогноз потребления в муниципалитетах и поиск местных шоков по данным СберИндекса и официальным текстам"
+requires-python = ">=3.12"
+# зависимости с точными версиями — в requirements.txt: pip install -r requirements.txt && pip install -e .
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

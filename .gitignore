@@ -1,0 +1,15 @@
+# данные: сырые выгрузки и промежуточные файлы воспроизводятся скриптами
+data/raw
+data/interim/
+data/processed/
+outputs/
+# собираемые файлы
+report/methodology.html
+site/presentation.html
+# окружение
+.venv/
+*.egg-info/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store

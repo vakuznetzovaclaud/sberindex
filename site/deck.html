@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Где искать шок — прогноз потребления в муниципалитетах и поиск местных шоков по данным СберИндекса и официальным текстам</title>
+<style>@font-face{font-family:'Nunito Sans';src:url(data:font/ttf;base64,{{FONT}}) format('truetype');font-weight:200 1000;font-stretch:75% 125%}
+:root{--ink:#121212;--red:#ED0F00;--pink:#F46DE4;--yellow:#FFE762;--blue:#7F9FFF;--green:#41E786;--mu:#6d6d6d}
+@page{size:1600px 900px;margin:0}
+html,body{margin:0;background:#e9e9e9;color:var(--ink);font-family:'Nunito Sans',Arial,sans-serif}
+.slide{width:1600px;height:900px;box-sizing:border-box;margin:0 auto 24px;padding:44px 80px 40px;background:#fff;position:relative;overflow:hidden;display:flex;flex-direction:column;break-after:page}
+@media print{html,body{background:#fff}.slide{margin:0}}
+.blue{--c:var(--blue)}.pink{--c:var(--pink)}.yellow{--c:var(--yellow)}.green{--c:var(--green)}.ink{--c:var(--ink)}
+.top{display:flex;justify-content:space-between;border-bottom:1px solid var(--ink);padding-bottom:10px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:#555}
+.top b{color:var(--ink)}
+h2{margin:26px 0 0;font-stretch:75%;font-weight:900;text-transform:uppercase;font-size:66px;line-height:.93;letter-spacing:-.005em}
+h2 .hl{background:linear-gradient(transparent 52%,var(--c) 52%);padding:0 .06em}
+h2 .acc{color:var(--red)}
+.lead{font-size:21px;line-height:1.45;max-width:1100px;margin:16px 0 0;color:#222}
+.grid{display:grid;gap:34px;margin-top:26px;flex:1;min-height:0}
+.g2{grid-template-columns:1fr 1fr}.g37{grid-template-columns:3fr 7fr}.g73{grid-template-columns:7fr 5fr}.g55{grid-template-columns:5fr 6fr}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.kpi{border:1px solid #1212121f;border-top:5px solid var(--c,var(--ink));padding:16px 18px}
+.kpi b{display:block;font-stretch:75%;font-weight:900;font-size:62px;line-height:1;white-space:nowrap}
+.kpi span{display:block;font-size:17px;line-height:1.4;color:#444;margin-top:8px}
+.col h4{margin:0 0 10px;font-stretch:75%;font-weight:900;text-transform:uppercase;font-size:22px}
+.col p,.col li{font-size:20px;line-height:1.45;margin:0 0 10px;color:#222}
+.col ul{margin:0;padding-left:20px}
+.note{font-size:16px;line-height:1.45;color:var(--mu);margin:8px 0 0}
+.chart{zoom:1.25}.chart .note{font-size:13px}.chart h4{font-size:17px!important}
+.box{border:1px solid var(--ink);padding:18px 20px}
+.tag{display:inline-block;background:var(--c);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;padding:3px 8px;margin-bottom:8px}
+.chart svg text{font-family:'Nunito Sans',Arial,sans-serif;fill:var(--ink)}
+.chart svg .mu{fill:var(--mu)}
+table.t{width:100%;border-collapse:collapse;font-size:19px}
+table.t th{text-align:left;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;border-bottom:1px solid var(--ink);padding:7px 6px}
+table.t td{border-bottom:1px solid #1212121f;padding:7px 6px}
+table.t td.n,table.t th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.foot{margin-top:auto;display:flex;justify-content:space-between;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:#888;padding-top:10px}
+/* обложка */
+.cover{background:#fff}
+.cover h1{margin:40px 0 0;font-stretch:75%;font-weight:900;text-transform:uppercase;font-size:200px;line-height:.82;letter-spacing:-.01em}
+.cover .sub{font-stretch:75%;font-weight:900;text-transform:uppercase;font-size:38px;line-height:1.05;margin:34px 0 0}
+.cover .sub .acc{color:var(--red)}
+.cover .blk{position:absolute;right:80px;top:110px;width:360px;height:330px}
+.cover .blk i{position:absolute;display:block;mix-blend-mode:multiply}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}
+.step{border:1px solid var(--ink);border-top:5px solid var(--c);padding:14px 16px}
+.step h5{margin:0 0 6px;font-stretch:75%;font-weight:900;text-transform:uppercase;font-size:20px}
+.step p{margin:0;font-size:17px;line-height:1.4}
+.neg li{margin-bottom:10px}
+.neg b{font-stretch:75%;text-transform:uppercase;font-size:19px}
+pre.cmd{font-family:Menlo,'SF Mono',Consolas,'Liberation Mono',monospace;font-size:15px;line-height:1.55;border:1px solid var(--ink);border-left:6px solid var(--yellow);padding:14px 18px;margin:0;white-space:pre}
+.arch svg{width:auto;height:630px;max-width:100%;display:block;margin:0 auto}
+</style>
+</head>
+<body>
+
+<!-- 1. обложка -->
+<section class="slide cover">
+  <div class="top"><span>Онлайн-конкурс СберИндекса 2026</span><span>Направление 2 · прогнозирование и обнаружение точек структурных изменений</span><span><b>Вероника Кузнецова</b></span></div>
+  <div class="blk"><i style="left:0;top:40px;width:230px;height:160px;background:var(--yellow)"></i><i style="right:0;top:0;width:120px;height:300px;background:var(--pink)"></i><i style="left:40px;bottom:0;width:280px;height:170px;background:var(--blue)"></i><i style="right:10px;bottom:30px;width:150px;height:90px;background:var(--green)"></i></div>
+  <h1>Где искать<br>шок</h1>
+  <p class="sub">Прогноз потребления в муниципалитетах <span class="acc">и поиск местных шоков</span><br>по данным СберИндекса и официальным текстам</p>
+  <div class="kpis" style="margin-top:auto;max-width:1180px">
+    <div class="kpi blue"><b>−{{vs_prophet}}%</b><span>ошибка прогноза против Prophet: MAE {{ens}} против {{prophet}} руб. на жителя (без декабря −{{nodec_gap}}%); точнее в {{better_share}}% муниципалитетов</span></div>
+    <div class="kpi pink"><b>{{sel_rec}}%</b><span>искусственных шоков размером 5–20%, внесённых в реальные ряды, находит выбранный из 11 детекторов при 3% ложных тревог; шок 5% — лишь {{rec5}}%</span></div>
+    <div class="kpi green"><b>{{fl_site_mp_med}}%</b><span>покупки на маркетплейсах к прогнозу в районах, которые сайты МЧС назвали в паводок 2024 года; детекторы по тратам эти районы поодиночке не видят</span></div>
+  </div>
+</section>
+
+<!-- 2. задача и данные -->
+<section class="slide ink">
+  <div class="top"><span><b>02 / 12</b></span><span>Задача и данные</span><span>Где искать шок</span></div>
+  <h2><span class="hl" style="--c:var(--yellow)">Прогноз по коротким</span><br>рядам и <span class="acc">поиск местных шоков</span></h2>
+  <div class="grid g2">
+    <div class="col">
+      <h4>Что нужно</h4>
+      <ul>
+        <li>Прогноз безналичных трат на жителя в {{n_mo}} муниципалитетах (МО) на 1–3 месяца по шести категориям — точнее Prophet по MAE и R².</li>
+        <li>Раннее обнаружение шоков потребления: сравнение методов, метрики, реальные примеры.</li>
+        <li>Встроить новости и официальные тексты в прогноз и в обнаружение.</li>
+      </ul>
+      <h4 style="margin-top:22px">Главная трудность</h4>
+      <p>К моменту прогноза в ряду МО 13–23 месячные точки из 24 — меньше двух годовых циклов. Годовую сезонность по одному ряду не оценить; траты за месяц становятся известны только после его конца.</p>
+    </div>
+    <div class="col">
+      <h4>Данные</h4>
+      <table class="t">
+        <tr><th>Источник</th><th>Что взято</th></tr>
+        <tr><td>СберИндекс</td><td>траты МО × месяц × 6 категорий, 2023–2024; национальные ряды: месячные с 2018 г., недельные по 46 категориям</td></tr>
+        <tr><td>Росстат</td><td>население МО, ОКТМО (привязка населённых пунктов к МО)</td></tr>
+        <tr><td>Портал опубликования</td><td>652 акта регионов о режимах ЧС за 2023–2024 годы; в анализе 378 — без отмен и регионов без данных о тратах</td></tr>
+        <tr><td>Сайты ГУ МЧС</td><td>87 тысяч новостей по 69 регионам</td></tr>
+        <tr><td>Telegram</td><td>каналы трёх регионов — для разбора паводка; {{ev_channels}} официальных каналов регионов — для проверки на событиях 2024 года</td></tr>
+      </table>
+      <p class="note">У каждого факта хранится дата, когда он стал известен.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Данные: СберИндекс (CC BY-SA 4.0), Росстат через «Если быть точным» (CC BY 4.0)</span><span>Где искать шок</span></div>
+</section>
+
+<!-- 3. архитектура -->
+<section class="slide ink">
+  <div class="top"><span><b>03 / 12</b></span><span>Архитектура</span><span>Где искать шок</span></div>
+  <h2><span class="hl" style="--c:var(--green)">Как устроена</span> система</h2>
+  <div class="arch" style="margin-top:28px">{{ARCH}}</div>
+  <div class="foot"><span>Сплошные стрелки — основные потоки, пунктир — где текст проверен в прогнозе и где входит в обнаружение</span><span>Где искать шок</span></div>
+</section>
+
+<!-- 4. протокол -->
+<section class="slide blue">
+  <div class="top"><span><b>04 / 12</b></span><span>Протокол оценки</span><span>Где искать шок</span></div>
+  <h2><span class="hl">Все МО, все месяцы,</span><br><span class="acc">без утечек</span></h2>
+  <div class="steps">
+    <div class="step blue"><h5>Скользящая точка прогноза</h5><p>Последний наблюдённый месяц — январь…ноябрь 2024 года, прогноз на 1–3 месяца вперёд, до декабря включительно. {{n_fc_all}} прогнозов на модель ({{n_fc}} на категорию).</p></div>
+    <div class="step blue"><h5>Разработка и контроль</h5><p>Решения — по точкам январь–июнь, проверка — на июле–ноябре; сжатие сезонного профиля и вес национального ряда проверялись на всех точках. Состав ансамбля задан до расчёта.</p></div>
+    <div class="step blue"><h5>Дата знания</h5><p>Акт — со дня опубликования, новость — с момента публикации, траты — после конца месяца.</p></div>
+    <div class="step blue"><h5>Тест утечек</h5><p>Всё после точки прогноза заменяется случайными значениями; тест проверяет, что прогноз не изменился. Для наших моделей, входа FM и текстовых признаков.</p></div>
+  </div>
+  <div class="grid g2" style="margin-top:26px">
+    <div><div id="d-roll"></div></div>
+    <div class="col"><h4>Метрики</h4><p>MAE (главная), MAPE, WAPE, MASE, R² годового прироста, R²_oos к сезонному наивному прогнозу, доля МО лучше Prophet, тест Диболда–Мариано, покрытие интервалов.</p>
+      <h4 style="margin-top:18px">Базовые модели для сравнения</h4><p>Prophet по умолчанию, с настройками TimeCast и с подбором по сетке из 8 вариантов; сезонный наивный прогноз и наивный прогноз с приростом год к году.</p></div>
+  </div>
+  <div class="foot"><span>Весь расчёт — командой make all</span><span>Где искать шок</span></div>
+</section>
+
+<!-- 5. прогноз -->
+<section class="slide blue">
+  <div class="top"><span><b>05 / 12</b></span><span>Прогноз</span><span>Где искать шок</span></div>
+  <h2><span class="hl">Ошибка вдвое меньше,</span><br>чем <span class="acc">у Prophet</span></h2>
+  <div class="grid g55">
+    <div class="chart"><div id="d-mae"></div><p class="note">MAE, руб. на жителя в месяц; «Все категории», все МО, все точки 2024 года. * — вход без сезонности. Ансамбль — среднее панельной модели, LightGBM и трёх FM*.</p></div>
+    <div>
+      <div class="kpis" style="grid-template-columns:1fr 1fr">
+        <div class="kpi blue"><b>{{better_share}}%</b><span>МО, где ансамбль точнее Prophet</span></div>
+        <div class="kpi blue"><b>{{r2_ens}}</b><span>R² годового прироста; у Prophet {{r2_prophet}}</span></div>
+      </div>
+      <div class="chart" style="zoom:1;margin-top:14px"><div id="d-metrics"></div></div>
+      <p class="note" style="font-size:14.5px">MAPE — средняя ошибка в процентах; WAPE — сумма ошибок к сумме трат; MASE — к среднему месячному изменению ряда (меньше 1 — лучше, чем «следующий месяц как этот»); R² г/г ниже нуля — хуже среднего прироста. Интервалы 80%: покрытие {{cov1}}% на 1 месяц и {{cov3}}% на 3 месяца — на третьем месяце узки. Контроль (июль–ноябрь): ансамбль {{ens_ctl}}, Prophet {{pro_ctl}}. Диболд–Мариано против Prophet: p = {{dm1}} / {{dm2}} / {{dm3}} на горизонтах 1 / 2 / 3; на третьем месяце и на окне контроля (p = {{dm_ctl}}) разница незначима.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Подробнее: сайт — материал 01, отчёт — раздел 5</span><span>Где искать шок</span></div>
+</section>
+
+<!-- 6. модель × категория -->
+<section class="slide blue">
+  <div class="top"><span><b>06 / 12</b></span><span>Модель × категория</span><span>Где искать шок</span></div>
+  <h2><span class="hl">Ансамбль — лучший или рядом</span><br>с лучшим <span class="acc">среди наших моделей</span></h2>
+  <div class="chart" style="margin-top:16px;zoom:1.1"><div id="d-bycat"></div></div>
+  <p class="note" style="font-size:15.5px">MAE, руб. на жителя; жирным — лучшая в категории. Ансамбль лучший по «Все категории», здоровью и общепиту, в остальных уступает лидеру не больше {{ens_gap}}%. На выборке 400 МО ансамбль точнее Prophet с подбором во всех категориях, кроме маркетплейсов ({{ens_mp_400}} против {{tuned_mp}}) и здоровья (вровень: {{hl_ens}} против {{hl_tuned}}).</p>
+  <div class="foot"><span>Все МО, все точки 2024 года, горизонты 1–3</span><span>Где искать шок</span></div>
+</section>
+
+<!-- 7. фундаментальные модели -->
+<section class="slide blue">
+  <div class="top"><span><b>07 / 12</b></span><span>Фундаментальные модели</span><span>Где искать шок</span></div>
+  <h2><span class="hl">Решает подготовка</span><br><span class="acc">входа</span></h2>
+  <div class="grid g37">
+    <div class="chart"><h4 style="font-stretch:75%;font-weight:900;text-transform:uppercase;font-size:20px;margin:0 0 8px">TiRex-2 на трёх входах, MAE</h4><div id="d-fm"></div>
+      <p class="note">На сыром ряде в декабре {{dec_raw}} против {{dec_sa}} на входе без сезонности: по 13–23 точкам годовой пик модель не видит.</p></div>
+    <div class="grid g2" style="margin-top:0;gap:16px">
+      <div class="box"><span class="tag blue">Сработало</span><p style="font-size:17px;margin:0">Сезонность отдаём готовой, FM прогнозирует уровень и тренд: TimesFM-2.5 {{tfm_raw}} → {{tfm_sa}}, TiRex-2 {{tirex_dev}} → {{tirex_sa}}. FM лучше панели в {{fm_win}} точках из {{fm_pts}}.</p></div>
+      <div class="box"><span class="tag blue">Сработало</span><p style="font-size:17px;margin:0">Совместный прогноз Chronos-2 батчами МО соседних регионов: {{chr_sa}} → {{chr_cross}}.</p></div>
+      <div class="box"><span class="tag" style="background:#fff;border:1px solid var(--ink)">Не сработало</span><p style="font-size:17px;margin:0">При дообучении всех весов на 13–23 точках ошибка Chronos-2 растёт на {{ft_lo}}–{{ft_hi}}% (на контексте 13–18 месяцев — в {{ft_dev_x}} раза). Ковариаты — пять других категорий МО — {{cov_text}}</p></div>
+      <div class="box"><span class="tag" style="background:#fff;border:1px solid var(--ink)">Ограничение</span><p style="font-size:17px;margin:0">Сглаживание на том же входе отстаёт от TimesFM-2.5 всего на {{ses_gap}}%, а ансамбль без FM даёт {{ens_nofm}} против {{ens}}: большая часть выигрыша — от подготовки входа, а не от самих FM. Сети TimeCast (LSTM, TCN, PatchTST), обученные с нуля на том же входе, точнее Prophet, но уступают предобученным FM — на коротких рядах выигрывает предобучение на чужих.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>Подробнее: сайт — материал 02, отчёт — раздел 6</span><span>Где искать шок</span></div>
+</section>
+
+<!-- 8. детекторы -->
+<section class="slide pink">
+  <div class="top"><span><b>08 / 12</b></span><span>Обнаружение</span><span>Где искать шок</span></div>
+  <h2><span class="hl">11 детекторов</span><br>на <span class="acc">искусственных шоках</span></h2>
+  <div class="grid g2">
+    <div class="chart"><h4 style="font-stretch:75%;font-weight:900;text-transform:uppercase;font-size:20px;margin:0 0 8px">VUS-PR на полусинтетике</h4><div id="d-det"></div>
+      <p class="note">VUS-PR — площадь под кривой точность–полнота с допуском по времени (1 — идеал). Шоки 4 форм × 3 размеров, одиночные и кластерные, внесены в реальные ряды, 3 повтора. Смотреть по категориям лучше, чем по общим тратам: GLR {{glr_vus}} против {{glr1_vus}}; на отраслевом шоке оба почти слепы ({{sec_glr6}} и {{sec_glr1}}). При шоке 5% выбранный детектор находит лишь {{rec5}}% шоков, а реальные эффекты актов — от {{mp}} до {{mp_list}}%. По F1 с допуском тоже лидирует GLR ({{glr_f1}} против {{sel_f1}} у суммы).</p></div>
+    <div class="chart" style="zoom:1.2"><h4 style="font-stretch:75%;font-weight:900;text-transform:uppercase;font-size:20px;margin:0 0 8px">Задержка — ложные тревоги</h4><div id="d-curve"></div>
+      <p class="note">Задержка в месяцах, пропущенный шок — 3 месяца; ниже — лучше. Выбрана сумма Стауффера: {{sel_rec}}% шоков при 3% ложных тревог и наименьшая задержка при любой их доле; ансамбли отстают на {{lag_lo}}–{{lag_hi}} мес.; по VUS-PR сумму ({{sel_vus}}) обходят GLR по шести категориям ({{glr_vus}}) и ансамбль рангов ({{ensr_vus}}). Нормировка и ранги — только по прошлому.</p></div>
+  </div>
+  <div class="foot"><span>Подробнее: сайт — материал 03, отчёт — раздел 7</span><span>Где искать шок</span></div>
+</section>
+
+<!-- 9. реальные сдвиги -->
+<section class="slide pink">
+  <div class="top"><span><b>09 / 12</b></span><span>Реальные сдвиги</span><span>Где искать шок</span></div>
+  <h2><span class="hl">Что детекторы видят</span><br><span class="acc">в реальных данных</span></h2>
+  <div class="grid g2">
+    <div class="col">
+      <h4>Ретроспективная карта (PELT)</h4>
+      <div class="chart" style="zoom:1.05"><div id="d-breaks"></div></div>
+      <p>Апрель 2023 года: перелом в общих тратах сразу у {{br_apr23}} МО из {{n_mo}} — скорее изменение в данных, чем в экономике (гипотеза). Февраль 2024 года, маркетплейсы: перелом у {{mp_break}} МО, у {{mp_break_down}} из них сдвиг вниз.</p>
+      <h4 style="margin-top:18px">Недельные национальные ряды 2025–2026</h4>
+      <p>{{wk_all}} тревог вне праздников: у {{wk_ok}} ({{wk_ep}}) нашлось объяснение в открытых источниках (закон о такси, рекорд цен на бензин, сезон оплаты обучения, пересчёт данных самим СберИндексом), {{wk_echo}} — «эхо» сдвига годичной давности, у {{wk_unk}} причина не установлена.</p>
+    </div>
+    <div class="col">
+      <h4>Паводок 2024 года глазами детекторов</h4>
+      <div class="kpis" style="grid-template-columns:1fr 1fr">
+        <div class="kpi pink"><b>{{fl_site_hit}} из {{fl_site_n}}</b><span>МО, названных на сайтах МЧС, отметил бы в апреле даже самый чувствительный из детекторов — при 3% ложных тревог это уровень случайного</span></div>
+        <div class="kpi pink"><b>p = {{fl_site_p}}</b><span>по {{fl_site_n}} МО, названным на сайтах МЧС, маркетплейсы в апреле ниже, чем у остальной страны; с поправкой на все {{fl_src_tests}} проверки — {{fl_site_bonf}}</span></div>
+      </div>
+      <p style="margin-top:14px">У {{fl_n5}} МО с пятью и более сообщениями сдвиг — {{fl_mp_z}} шума отдельного МО (медиана): поодиночке не виден. Текст указывает, какие МО проверять, и по этой группе сдвиг в тратах виден.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Подробнее: сайт — материалы 04 и 08, отчёт — разделы 7 и 12</span><span>Где искать шок</span></div>
+</section>
+
+<!-- 10. текст -->
+<section class="slide yellow">
+  <div class="top"><span><b>10 / 12</b></span><span>Текст</span><span>Где искать шок</span></div>
+  <h2><span class="hl">378 актов — {{n_events}} событий</span><br>с <span class="acc">датой и районами</span></h2>
+  <div class="grid g55">
+    <div class="col">
+      <h4>Конвейер</h4>
+      <p>PDF → OCR → открытая модель GigaChat3.1 только копирует факты по схеме (режим, причина, даты, МО) → категорию ставят прозрачные правила → привязка к МО по справочнику и ОКТМО. Модель, обученная позже, не подсказывает того, чего на дату акта ещё не знали.</p>
+      <div class="kpis" style="margin-top:12px">
+        <div class="kpi yellow"><b>22 из 22</b><span>тип режима извлечён верно (ручная выверка)</span></div>
+        <div class="kpi yellow"><b>19 из 22</b><span>верная причина; территория — 20 из 22</span></div>
+        <div class="kpi yellow"><b>44–62%</b><span>точность разметки новостей МЧС: как тревога по району не годятся ({{lift_news}}×), как список районов для проверки — годятся</span></div>
+      </div>
+    </div>
+    <div class="chart" style="zoom:1.1"><h4 style="font-stretch:75%;font-weight:900;text-transform:uppercase;font-size:20px;margin:0 0 8px">Что режимы ЧС делают с маркетплейсами, %</h4><div id="d-dose"></div>
+      <p class="note">Только акты 2024 года: для 2023 года прогноза нет. Эффект акта — насколько траты его МО в месяц события и следующий отклонились от прогноза сильнее, чем в другие месяцы 2024 года; в скобках — число актов. Сильнее всего — акты с перечнем МО: {{mp_list}}% (p = {{mp_list_p}}, с поправкой на пять категорий {{mp_list_bonf}} — лишь намёк); по всем актам {{mp}}%, незначимо; значимы {{n_sig}} из {{n_tests}} проверок (случайно ≈{{n_exp}}). Сдвига общих трат в среднем не видно (p = {{all_p}}).</p></div>
+  </div>
+  <div class="foot"><span>Подробнее: сайт — материалы 05–06, отчёт — разделы 8–9</span><span>Где искать шок</span></div>
+</section>
+
+<!-- 11. текст и траты: адрес и тревога -->
+<section class="slide green">
+  <div class="top"><span><b>11 / 12</b></span><span>Текст и тревога</span><span>Где искать шок</span></div>
+  <h2><span class="hl">Текст и траты:</span><br>адрес — да, <span class="acc">тревога — нет</span></h2>
+  <div class="grid g2">
+    <div class="col">
+      <div class="kpis">
+        <div class="kpi green"><b>{{fl_site_mp_med}}%</b><span>покупки на маркетплейсах к прогнозу в {{fl_site_n}} районах из сообщений сайтов МЧС о паводке (без сообщений в тех же регионах — {{fl_none_mp_med}}%); детекторы отметили бы {{fl_site_hit}} из {{fl_site_n}}</span></div>
+        <div class="kpi green"><b>{{mp_list}}%</b><span>траты на маркетплейсах в МО, названных в акте о ЧС (p = {{mp_list_p}}; с поправкой незначимо — лишь намёк)</span></div>
+        <div class="kpi green"><b>{{lift_act}}×</b><span>во столько раз провал маркетплейсов после тревоги по акту чаще, чем обычно в тех же МО; 95%-й интервал {{lift_lo}}–{{lift_hi}}, плацебо {{lift_plac}}× — сигнала нет</span></div>
+      </div>
+      <p style="margin-top:16px">Система тревог по схеме EMBERS сигнала по отдельному МО не даёт; копии одного акта по всем МО региона легко дают ложный подъём, поэтому интервал считается по кластерам «регион × месяц». Главное: текст называет районы, где провал не виден детекторам по тратам, и у этих районов покупки на маркетплейсах в среднем проседают (в паводок по сайтам МЧС p = {{fl_site_p}}, с поправкой {{fl_site_bonf}}; по актам 2024 года — лишь намёк). Список известен до данных — подогнать его под провал нельзя.</p>
+    </div>
+    <div class="chart"><h4 style="font-stretch:75%;font-weight:900;text-transform:uppercase;font-size:20px;margin:0 0 8px">Паводок: маркетплейсы к прогнозу, %</h4><div id="d-flood"></div>
+      <p class="note">Медиана по МО трёх регионов; в скобках — число МО. Районы с сайтов МЧС названы с {{fl_first}}, до выхода данных за апрель. Знак связи «число сообщений — траты в апреле» отрицательный в {{dose_neg}} сочетаниях источника и категории из {{dose_cells}}, но с поправкой на {{dose_cells}} сочетаний сильнейшая ячейка незначима (у сайтов МЧС по «Все категории» ρ = {{flood_rho}}, p = {{flood_p}} без поправки) — это наблюдение, не доказательство.</p></div>
+  </div>
+  <div class="foot"><span>Подробнее: сайт — материалы 06–08, отчёт — разделы 9, 10 и 12</span><span>Где искать шок</span></div>
+</section>
+
+<!-- 12. итоги -->
+<section class="slide yellow">
+  <div class="top"><span><b>12 / 12</b></span><span>Итоги</span><span>Где искать шок</span></div>
+  <h2><span class="hl">Итоги:</span> что установлено и <span class="acc">где границы</span></h2>
+  <div class="grid g2" style="gap:30px">
+    <div class="col">
+      <ul class="neg">
+        <li><b>Прогноз.</b> Ансамбль: MAE {{ens}} руб. на жителя, на {{vs_prophet}}% ниже Prophet (без декабря — на {{nodec_gap}}%) и на {{vs_snaive}}% ниже наивного прогноза с приростом; точнее Prophet в {{better_share}}% МО. Без FM ансамбль ошибается немногим больше ({{ens_nofm}}): главное — подготовка входа.</li>
+        <li><b>Обнаружение.</b> Выбрана простая сумма отклонений шести категорий: при 3% ложных тревог она находит {{sel_rec}}% искусственных шоков — больше и раньше остальных 12 методов (по VUS-PR чуть впереди GLR и ансамбль рангов). На реальных событиях по отдельным МО детекторы почти на уровне случайного.</li>
+        <li><b>Текст.</b> В паводок 2024 года сайты МЧС до выхода данных назвали {{fl_site_n}} районов; покупки на маркетплейсах там на {{fl_site_mp_abs}}% ниже прогноза (по группе p = {{fl_site_p}}, с поправкой на {{fl_src_tests}} проверки — {{fl_site_bonf}}), а детекторы по тратам заметили бы лишь {{fl_site_hit}}. По актам знак тот же ({{mp_list}}%), но незначимо. Тревога по району сигнала не даёт.</li>
+        <li><b>Границы.</b> Маркетплейсы: Prophet с подбором точнее ({{tuned_mp}} против {{ens_mp_400}} на 400 МО). Третий месяц: покрытие интервалов {{cov3}}% вместо 80%, выигрыш у Prophet незначим (p = {{dm3}}). Дообучение Chronos-2 на <span style="white-space:nowrap">13–23</span> точках ухудшает прогноз. Текст в признаках меняет MAE лишь в пределах ±1%. На {{ev_test_n}} других тяжёлых событиях 2024 года сдвиг не повторяется (z = {{ev_z}}): адрес из текста работает для бедствий масштаба паводка.</li>
+      </ul>
+    </div>
+    <div class="col">
+<pre class="cmd">python -m venv ~/.venvs/sberindex-prognoz
+~/.venvs/sberindex-prognoz/bin/pip install -r requirements.txt
+~/.venvs/sberindex-prognoz/bin/pip install -e .
+make all    # данные → тексты → прогнозы → Prophet
+            # → оценка → страница, презентация, PDF
+make test   # выход не меняется, если испортить всё после
+            # точки прогноза; метрики сверены с ручным счётом</pre>
+      <p style="margin-top:16px">Модели и библиотеки открыты, языковая модель работает локально, платные технологии не используются; единственный закрытый компонент — системное OCR macOS, на других системах его заменяет Tesseract. Методологический отчёт — {{rep_pages_text}}; интерактивная страница — с лентой тревог, картой и разбором паводка.</p>
+      <p style="margin-top:8px"><b>Код:</b> {{repo_url_text}}</p>
+      <div class="box" style="margin-top:14px;border-left:6px solid var(--green)"><span class="tag green">Пример тревоги</span>
+        <p style="font-size:17px;margin:0">Белозерский округ, Курганская область. {{ex_first}} — первое сообщение о подтоплении с названием округа, 8 апреля — акт о режиме ЧС с округом в перечне, до конца апреля — {{ex_msgs}} сообщений. Траты на маркетплейсах в апреле {{ex_mp_apr}}% к прогнозу, в мае {{ex_mp_may}}%. Округ попал в список до выхода данных за апрель. Это иллюстрация, а не типичный случай: провалом маркетплейсов закончились лишь {{prec_act}}% эпизодов тревог по актам ({{hits_act}} из {{n_ep_act}}; случайно совпали бы около {{chance_act}}).</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>Вероника Кузнецова · Онлайн-конкурс СберИндекса 2026</span><span>Где искать шок</span></div>
+</section>
+
+<script>const DATA = /*DATA*/null;</script>
+<script>/*APP*/</script>
+</body>
+</html>

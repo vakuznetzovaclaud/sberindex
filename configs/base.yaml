@@ -1,0 +1,45 @@
+# Параметры проекта «Раньше цифр»: прогноз потребления в муниципалитетах и поиск местных шоков по данным СберИндекса
+# и официальным текстам
+period:
+  months_from: "2023-01"
+  months_to: "2024-12"
+  origins_from: "2024-01"      # последний наблюдённый месяц при прогнозе
+  origins_to: "2024-11"
+  horizons: [1, 2, 3]
+  weekly_from: "2025-01-01"    # недельный национальный полигон
+  weekly_to: "2026-09-20"      # последняя неделя выгрузки 23.09.2026; позже СберИндекс пересчитывает недели
+sources:
+  portal_api: "https://sberindex.ru/api"
+  portal_sha256:               # выгрузки портала от 23.09.2026: портал дополняет ряды и пересчитывает недавние недели
+    consumer-spending: "78d3520a113262ce18f52f8df2c869ac0c5056e155f66d86e6b75d95ef0dcacf"
+    ver-izmenenie-trat-po-kategoriyam: "2887e9b1e720b3898dfb65e75a25af5d325459a1ae8c54d3a550f516246e17b7"
+  hackathon_zip: "https://www.sberbank.com/common/img/uploaded/files/pdf/sberindex/hackathonlicence.zip"
+  hackathon_zip_sha256: "a9f932ff4096a7df797d1547987937f34d3995ac445b4748177114488d12b010"
+  borders_rar: "https://www.sberbank.com/common/files/t_dict_municipal.rar"
+  borders_rar_sha256: "319ed22684b77716641bc15b61f7325adc44e9fc47e9be2973d88412d27d21f5"
+  acts_api: "http://publication.pravo.gov.ru/api/Documents"
+  acts_pdf: "http://publication.pravo.gov.ru/file/pdf?eoNumber={eo}"
+  mchs_news: "https://{region}.mchs.gov.ru/deyatelnost/press-centr/novosti"
+  telegram_preview: "https://t.me/s/{channel}"
+  oktmo: "https://rosstat.gov.ru/opendata/7708234640-oktmo/data-20260901T1609-structure-20260210T1102.csv"
+  oktmo_sha256: "c91a45c85d25c881b9a87cd9973a663e004b5d1b0e83d335778fcd4965ff558f"
+  timecast:                    # нейросетевые модели TimeCast (LSTM, TCN, PatchTST); код скачивается, не копируется
+    url: "https://github.com/Sorooshi/TimeCast.git"
+    commit: "eaf2a6d2a617cbfc7ecbc499a1eb81135dcc70c0"
+  bdmo: "https://storage.yandexcloud.net/tochno-st-catalog/Rosstat/data_bdmo_118_v20250918/by_indicator/data_section{section}_112_v20250918.zip"
+  production_calendar: "https://xmlcalendar.ru/data/ru/{year}/calendar.json"
+foundation:                    # веса фундаментальных моделей: репозиторий Hugging Face и ревизия (коммит) снимка
+  chronos2: {repo: "amazon/chronos-2", revision: "29ec3766d36d6f73f0696f85560a422f50e8498c"}
+  timesfm25: {repo: "google/timesfm-2.5-200m-pytorch", revision: "1d952420fba87f3c6dee4f240de0f1a0fbc790e3"}
+  tirex2: {repo: "NX-AI/TiRex-2", revision: "05e5b26db52bfb256f1ae1bdf785589850482de3"}
+acts:
+  queries: ["чрезвычайной ситуации", "режима повышенной готовности", "режим чрезвычайной"]
+  period_from: "01.01.2023"
+  period_to: "31.12.2024"
+llm:
+  endpoint: "http://localhost:11434/api/chat"
+  model: "hf.co/ai-sage/GigaChat3.1-10B-A1.8B-GGUF:Q4_K_M"
+  digest: "852c0b21ab28c34330a6050f8af936e4f9f8335265409f480392e133d2aabc82"   # sha256 файла модели в Ollama
+  temperature: 0
+crawl:
+  pause_s: 1.2

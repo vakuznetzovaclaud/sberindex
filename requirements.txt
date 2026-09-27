@@ -1,0 +1,22 @@
+# Python 3.12; версии — рабочего окружения, на котором получены результаты
+numpy==2.5.3
+pandas==2.2.3
+pyarrow==25.0.1
+scipy==1.17.1
+scikit-learn==1.5.0
+pyyaml==6.0.2
+openpyxl==3.1.5
+lightgbm==4.7.0
+prophet==1.4.0
+joblib==1.6.0
+ruptures==1.1.10
+torch==2.14.0
+chronos-forecasting==2.3.2
+timesfm[torch]==3.0.2
+tirex-2 @ git+https://github.com/NX-AI/tirex-2@5c53561aea112cd9c8097bc010d9c1619353701a
+ocrmac==1.0.1; sys_platform == "darwin"
+matplotlib==3.9.2
+markdown==3.10.3
+pypdf==6.19.0
+tabulate==0.9.0
+pytest==8.3.5
