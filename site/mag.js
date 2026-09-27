@@ -11,8 +11,10 @@
     $("#toc").outerHTML = items.map(function (t, i) { return '<li class="' + t[4] + '" style="--d:' + i + '"><a href="#' + t[3] + '"><span class="n">' + t[0] + '</span><span class="r">' + t[1] + '</span><span class="t">' + t[2] + '</span><span class="ar">→</span></a></li>'; }).join("");
   }
   function renderTicker(N) {
-    var one = '<span>ошибка на <u>' + N.vs_prophet + '%</u> ниже Prophet</span><i>✦</i><span>точнее Prophet в <em>' + N.better_share + '%</em> муниципалитетов</span><i>✦</i><span><b>' + N.sel_rec + '%</b> искусственных шоков ловит выбранный детектор при 3% ложных тревог</span><i>✦</i><span><b>378</b> актов о ЧС</span><i>✦</i><span><u>87 тысяч</u> новостей МЧС</span><i>✦</i><span><b>' + N.fl_site_mp_med + '%</b> к прогнозу — онлайн-покупки в районах, названных на сайтах МЧС в паводок</span><i>✦</i>';
-    $("#ticker").innerHTML = one + one + one;
+    var one = '<span>ошибка на <u>' + N.vs_prophet + '%</u> ниже Prophet</span><i>✦</i><span>точнее Prophet в <em>' + N.better_share + '%</em> муниципалитетов</span><i>✦</i><span><b>' + N.sel_rec + '%</b> искусственных шоков ловит детектор</span><i>✦</i><span><b>378</b> актов о ЧС</span><i>✦</i><span><u>87 тысяч</u> новостей МЧС</span><i>✦</i><span><b>' + N.fl_site_mp_med + '%</b> к прогнозу — покупки в районах, названных МЧС в паводок</span><i>✦</i>';
+    // две одинаковые половины: сдвиг на ровно половину ширины даёт бесшовный повтор; строка короче предела ширины
+    // анимируемого слоя в браузерах (около 8 тыс. пикселей), иначе часть слов не рисуется
+    $("#ticker").innerHTML = one + one;
   }
 
   // ---------- прогноз ----------

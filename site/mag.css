@@ -40,9 +40,10 @@ p{margin:0 0 12px;color:#333}
 @media(max-width:1000px){.cover-grid{grid-template-columns:1fr;height:auto;min-height:0}.cv-art{min-height:420px}.cv-lead{margin-top:24px}}
 /* тикер, бейдж */
 .ticker{background:var(--ink);color:#fff;overflow:hidden;margin-top:40px}
-.tk-in{display:flex;gap:30px;width:max-content;padding:14px 0;animation:marquee 38s linear infinite;font-stretch:75%;text-transform:uppercase;font-size:24px;font-weight:700;white-space:nowrap}
+.tk-in{display:flex;width:max-content;padding:14px 0;animation:marquee 30s linear infinite;will-change:transform;font-stretch:75%;text-transform:uppercase;font-size:24px;font-weight:700;white-space:nowrap}
 .tk-in b{color:var(--yellow)}.tk-in em{font-style:normal;color:var(--green)}.tk-in u{text-decoration:none;color:var(--blue)}.tk-in i{font-style:normal;color:var(--pink)}
-@keyframes marquee{to{transform:translateX(-33.333%)}}
+.tk-in>*{margin-right:30px}
+@keyframes marquee{to{transform:translateX(-50%)}}
 .badge{width:150px;height:150px;animation:spin 18s linear infinite}
 .badge text{font-size:17px;font-weight:900;letter-spacing:.2em;font-stretch:75%}
 @keyframes spin{to{transform:rotate(360deg)}}
